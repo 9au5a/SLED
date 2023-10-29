@@ -46,6 +46,7 @@ class TrainingOverridesArguments(Seq2SeqTrainingArguments):
 
     def __post_init__(self):
         super(TrainingOverridesArguments, self).__post_init__()
+        self.logging_steps = 100
         if self.eval_steps_override > 0 or self.save_steps_override > 0:
             if self.evaluation_strategy != IntervalStrategy.STEPS:
                 raise ValueError(

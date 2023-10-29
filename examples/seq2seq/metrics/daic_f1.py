@@ -27,21 +27,7 @@ class CustomDaicMetric(Metric):
         print(id_to_pred)
         print(id_to_labels)
         return self._metric.compute(**self.convert_from_map_format(id_to_pred, id_to_labels), average = 'macro')
-    
-    def id2label(id):
-        if num == 0: return 'Never'
-        if num == 1: return 'Sometimes'
-        if num == 2: return 'Often'
-        if num == 3: return 'Always'
-    '''    
-    def label2id(self, lbl):
-        lbl = lbl.lower()
-        if lbl == 'never': return 0
-        if lbl == 'sometimes': return 1
-        if lbl == 'often': return 2
-        if lbl == 'always': return 3
-        return 4 # ??
-    '''
+
     def label2id(self, lbl):
         lbl = lbl.lower()
         if lbl == 'no': return 0

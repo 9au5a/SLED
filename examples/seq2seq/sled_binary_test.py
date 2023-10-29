@@ -99,12 +99,14 @@ model = AutoModelForSeq2SeqLM.from_pretrained(path)
 exit()
 '''
 #  start ----------------------------- binary 
+md_name = 'T4'
 #path = '/ukp-storage-1/kuczykowska/code/SLED/tmp/daic_classification_binary_new_labels'
 path ='/ukp-storage-1/kuczykowska/code/SLED/tmp/72_dev_70_test_test_daic_classification_binary_new_labels'
 path = '/ukp-storage-1/kuczykowska/code/SLED/tmp/test7342_8GPU_batch2_test_daic_classification_binary_new_labels_2'
 path = '/ukp-storage-1/kuczykowska/code/SLED/tmp/test706_test_daic_classification_binary_new_labels'
 path = '/ukp-storage-1/kuczykowska/code/SLED/tmp/test_daic_classification_binary_new_labels_2'
 path = '/ukp-storage-1/kuczykowska/code/SLED/tmp/test_daic_classification_binary_new_labels'
+path = '/ukp-storage-1/kuczykowska/code/SLED/tmp/' +  md_name
 model = AutoModelForSeq2SeqLM.from_pretrained(path)
 
 #tokenizer_path = '/ukp-storage-1/kuczykowska/code/SLED/tmp/daic_classification_binary_new_labels/config.json'
@@ -113,8 +115,9 @@ tokenizer_path = '/ukp-storage-1/kuczykowska/code/SLED/tmp/72_dev_70_test_test_d
 tokenizer_path = '/ukp-storage-1/kuczykowska/code/SLED/tmp/test7342_8GPU_batch2_test_daic_classification_binary_new_labels_2/config.json'
 tokenizer_path = '/ukp-storage-1/kuczykowska/code/SLED/tmp/test706_test_daic_classification_binary_new_labels/config.json'
 tokenizer_path = '/ukp-storage-1/kuczykowska/code/SLED/tmp/test_daic_classification_binary_new_labels_2/config.json'
-tokenizer = SledTokenizer.from_pretrained(tokenizer_path)
 tokenizer_path = '/ukp-storage-1/kuczykowska/code/SLED/tmp/test_daic_classification_binary_new_labels/config.json'
+tokenizer_path = '/ukp-storage-1/kuczykowska/code/SLED/tmp/'+ md_name +'/config.json'
+tokenizer = SledTokenizer.from_pretrained(tokenizer_path)
 
 ''' test z regression tu sie zavczyna '''
 from run import preprocess_function
@@ -176,14 +179,44 @@ def predict(test_dataset, namefn):
             outputs.append(output)
         
     print(outputs)
-    #with open('generated_eval_output.csv', 'w') as f: f.write('\n'.join(outputs))
-    with open('generated_' + namefn + '_output.csv', 'w') as f: f.write('\n'.join(outputs))
+    with open('/ukp-storage-1/kuczykowska/code/SLED/tmp/generated_outputs/' + namefn + '.csv', 'w') as f: f.write('\n'.join(outputs))
     
-OUT_PATH  = '/ukp-storage-1/kuczykowska/data/daic/created_datasets/classification_binary_dataset' #_new_labels'    
+OUT_PATH  = '/ukp-storage-1/kuczykowska/data/daic/created_datasets/classification_binary_dataset'#_new_labels'    
 test_dataset = load_dataset(OUT_PATH, split = 'test', cache_dir='./', )
-predict(test_dataset, 'test_4')
+predict(test_dataset, md_name + '_test')
 test_dataset = load_dataset(OUT_PATH, split = 'validation', cache_dir='./', )
-predict(test_dataset, 'dev_4')
+predict(test_dataset, md_name + '_dev')
+
+import pandas as pd
+
+def read_labels(label_path, test = False):
+    labels = pd.read_csv(label_path, sep=',')
+    labels.Participant_ID = labels.Participant_ID.astype(int)
+    labels.PHQ8_Binary = labels.PHQ8_Binary.astype(int)
+    labels.PHQ8_Score = labels.PHQ8_Score.astype(int)
+    labels.Gender = labels.Gender.astype(int)
+    if not test:
+        for f in phq8_features:
+            labels[f] = labels[f].astype(int)
+    return labels 
+
+avrgs = ['macro', 'micro', 'weighted', 'binary']
+print('Evaluating predictions on test dataset')
+TEST_LABEL_PATH = '/ukp-storage-1/kuczykowska/data/daic/labels/full_test_split.csv' 
+labels = read_labels(TEST_LABEL_PATH, True)
+y_p = pd.read_csv('/ukp-storage-1/kuczykowska/code/SLED/tmp/generated_outputs/' + md_name + '_test' + '.csv', header = None)
+y_p = [1 if val.lower() == 'yes' else 0 for val in y_p[0].values]
+for avrg in avrgs:
+    print(avrg, ':', f1_score(labels.PHQ8_Binary.values, y_p, average = avrg))
+
+print('Evaluating predictions on development dataset')
+DEV_LABEL_PATH = '/ukp-storage-1/kuczykowska/data/daic/labels/dev_split_Depression_AVEC2017.csv' 
+labels = read_labels(DEV_LABEL_PATH)
+y_p = pd.read_csv('/ukp-storage-1/kuczykowska/code/SLED/tmp/generated_outputs/' + md_name + '_dev' + '.csv', header = None)
+y_p = [1 if val.lower() == 'yes' else 0 for val in y_p[0].values]
+for avrg in avrgs:
+    print(avrg, ':', f1_score(labels.PHQ8_Binary.values, y_p, average = avrg))
+
 
 # end ----------------------------- binary 
 

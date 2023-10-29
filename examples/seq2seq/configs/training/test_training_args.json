@@ -1,8 +1,8 @@
 {
-    "eval_steps_override": 0.5,
+    "eval_steps_override": "0.5changing logging_steps to 100 but in .custom_seq2seq (chyba)",
     "save_steps_override": 0.5,
     "evaluation_strategy": "steps",
-    "eval_fraction": 1000,
+    "eval_fraction": 1000, 
     "predict_with_generate": true,
     "gradient_checkpointing": true,
     "do_train": false,
