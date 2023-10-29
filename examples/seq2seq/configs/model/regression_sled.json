@@ -1,0 +1,7 @@
+{
+  "model_name_or_path": "/ukp-storage-1/kuczykowska/code/SLED/tmp/daic_regression",
+  "use_auth_token": false,
+  "pad_prefix": true,
+  "max_target_length": 1024,
+  "fp16": true
+}

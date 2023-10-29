@@ -106,6 +106,7 @@ def load_metric(paths: List[str], **kwargs):
         if os.path.isfile(path) is False:
             path = os.path.join("src", "metrics", f"{path}.py")
 
+        path = '/'.join(path.strip().split('/')[-2:])
         module = path[:-3].replace(os.sep, ".")
 
         metric_cls = import_main_class(module)
@@ -117,6 +118,7 @@ def load_metric(paths: List[str], **kwargs):
 # Modified from datasets.load
 def import_main_class(module_path):
     """Import a module at module_path and return its main class"""
+    print(module_path)
     module = importlib.import_module(module_path)
 
     main_cls_type = Metric

@@ -683,7 +683,8 @@ def main():
             logger.info(f'Loading weights from {last_checkpoint} for the prediction')
             state_dict = torch.load(os.path.join(last_checkpoint, WEIGHTS_NAME), map_location="cpu")
             # If the model is on the GPU, it still works!
-            trainer._load_state_dict_in_model(state_dict)
+            #trainer._load_state_dict_in_model(state_dict)
+            trainer.model.load_state_dict(state_dict)
             # release memory
             del state_dict
             logger.info("*** Done loading weights ***")

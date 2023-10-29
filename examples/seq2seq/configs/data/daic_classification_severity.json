@@ -1,0 +1,13 @@
+{
+  "dataset_name": "/ukp-storage-1/kuczykowska/data/daic/created_datasets/classification_severity_dataset_new_labels",
+  "dataset_config_name": "daic_classification_severity",
+  "max_source_length": 16384,
+  "max_prefix_length": 128,
+  "generation_max_length": 8,
+  "num_train_epochs": 40,
+  "metric_names": ["exact_match"],
+  "metric_for_best_model": "exact_match",
+  "greater_is_better": true,
+  "input_column": "input",
+  "output_column": "output"
+}
