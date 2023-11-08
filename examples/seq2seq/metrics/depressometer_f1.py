@@ -14,7 +14,7 @@ from datasets import load_metric as hf_load_metric
 from huggingface_hub import hf_hub_download
 
 
-class CustomDaicMetric(Metric):
+class depressometer_f1(Metric):
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
         self.prefix = None
@@ -30,12 +30,8 @@ class CustomDaicMetric(Metric):
 
     def label2id(self, lbl):
         lbl = lbl.lower()
-        # for set #1
-        if 'non depressed' in lbl: return 0
-        if 'depressed' in lbl:return 1
-        # for set #2
         if lbl == 'no': return 0
-        if lbl == 'yes': return 1
+        if lbl == 'depressed': return 1
         return 2 # ??
 
     def convert_from_map_format(self, id_to_pred, id_to_labels):

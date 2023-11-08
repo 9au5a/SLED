@@ -9,5 +9,6 @@
   "metric_for_best_model": "f1",
   "greater_is_better": true,
   "input_column": "input",
-  "output_column": "output"
+  "output_column": "output",
+  "evaluate_on_training_data": false
 }

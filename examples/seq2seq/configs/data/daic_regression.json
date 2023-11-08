@@ -1,13 +1,14 @@
 {
   "dataset_name": "/ukp-storage-1/kuczykowska/data/daic/created_datasets/regression_dataset",
   "dataset_config_name": "daic_regression",
+  "evaluate_on_training_data": false,
   "max_source_length": 16384,
   "max_prefix_length": 128,
   "generation_max_length": 8,
-  "num_train_epochs": 20,
-  "metric_names": ["/ukp-storage-1/kuczykowska/code/SLED/examples/seq2seq/metrics/daic_MAE.py", "/ukp-storage-1/kuczykowska/code/SLED/examples/seq2seq/metrics/daic_RMSE.py"],
+  "num_train_epochs": 40,
+  "metric_names": ["/ukp-storage-1/kuczykowska/code/SLED/examples/seq2seq/metrics/daic_MAE.py", "/ukp-storage-1/kuczykowska/code/SLED/examples/seq2seq/metrics/RMSE.py"],
   "metric_for_best_model": "mae",
-  "greater_is_better": true,
+  "greater_is_better": false,
   "input_column": "input",
   "output_column": "output",
   "input_prefix":"input_prefix"

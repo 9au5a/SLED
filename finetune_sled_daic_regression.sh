@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 #SBATCH --job-name=daic_regression
-#SBATCH --output=/ukp-storage-1/kuczykowska/code/SLED/metric_test_daic_regression.log
+#SBATCH --output=/ukp-storage-1/kuczykowska/code/SLED/evaluate_R2.log
 #SBATCH --mail-user=paulina.kuczykowska@stud.tu-darmstadt.de
 #SBATCH --mail-type=ALL
 #SBATCH --ntasks=1
@@ -15,7 +15,7 @@ python3.9 /ukp-storage-1/kuczykowska/code/SLED/examples/seq2seq/run.py \
 /ukp-storage-1/kuczykowska/code/SLED/examples/seq2seq/configs/data/daic_regression.json \
 /ukp-storage-1/kuczykowska/code/SLED/examples/seq2seq/configs/model/regression_sled.json \
 /ukp-storage-1/kuczykowska/code/SLED/examples/seq2seq/configs/training/test_training_args.json \
---output_dir /ukp-storage-1/kuczykowska/code/SLED/tmp/metric_daic_regression \
+--output_dir /ukp-storage-1/kuczykowska/code/SLED/tmp/evaluate_R2 \
 --learning_rate 2e-5 \
 --per_device_train_batch_size 1 \
 --per_device_eval_batch_size 1 \

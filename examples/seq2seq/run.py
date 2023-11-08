@@ -671,6 +671,21 @@ def main():
 
         trainer.log_metrics("eval", metrics)
         trainer.save_metrics("eval", metrics)
+        
+        '''
+        logger.info("*** Evaluate on Train DS***")
+
+        metrics = trainer.evaluate(train_dataset
+                                   , metric_key_prefix = "train_eval"
+                                   , untokenized_eval_dataset = untokenized_train_dataset)
+        logger.info('Done evaluating')
+
+        max_eval_samples = data_args.max_eval_samples if data_args.max_eval_samples is not None else len(eval_dataset)
+        metrics["eval_samples"] = min(max_eval_samples, len(eval_dataset))
+
+        trainer.log_metrics("train_eval", metrics)
+        trainer.save_metrics("train_eval", metrics)
+        '''
 
     if training_args.do_predict:
         logger.info("*** Predict ***")

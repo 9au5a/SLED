@@ -13,12 +13,12 @@ from utils.decoding import decode
 from datasets import load_metric as hf_load_metric
 from huggingface_hub import hf_hub_download
 
-class DAIC_MAE(Metric):
+class RMSE(Metric):
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
         self.prefix = None
 
-        self._metric = hf_load_metric('mae', keep_in_memory=True)
+        self._metric = hf_load_metric('mse', keep_in_memory=True)
         #self._metric = evaluate.load("mae")
         self.requires_decoded = True
     
@@ -59,4 +59,5 @@ class DAIC_MAE(Metric):
         return sum_y
     
     def calculate_metrics(self, predictions, references):
-        return self._metric.compute(predictions=predictions, references=references)
+        print('RMSE')
+        return self._metric.compute(predictions=predictions, references=references, squared = False)

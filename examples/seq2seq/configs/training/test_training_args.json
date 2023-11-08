@@ -1,5 +1,5 @@
 {
-    "eval_steps_override": "0.5changing logging_steps to 100 but in .custom_seq2seq (chyba)",
+    "eval_steps_override": 0.5,
     "save_steps_override": 0.5,
     "evaluation_strategy": "steps",
     "eval_fraction": 1000, 
@@ -8,7 +8,7 @@
     "do_train": false,
     "do_eval": false,
     "do_predict": true,
-    "seed": 6,
+    "seed": 123,
     "warmup_ratio": 0.1,
     "save_total_limit": 2,
     "preprocessing_num_workers": 1,
